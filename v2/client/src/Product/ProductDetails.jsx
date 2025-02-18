@@ -13,6 +13,7 @@
  import Footer from '../components/Footer/Footer';
  import FeaturesSection from '../components/FeaturesSection/FeaturesSection'; 
  import useWishlist from '../hooks/useWishlist';
+ import API_BASE from "../api";
  
  const ProductDetails = ( ) => {
      console.log('ProductDetails re-rendered');
@@ -61,11 +62,11 @@
          const fetchData = async () => {
            try {
              const [productResponse, productImagesResponse, productsResponse, discountsResponse, commentsResponse] = await Promise.all([
-               axios.get(`http://localhost:5000/products/${productId}`),
-               axios.get(`http://localhost:5000/product_images?product_id=${productId}`),
-               axios.get('http://localhost:5000/products'),
-               axios.get('http://localhost:5000/discounts'),
-               axios.get(`http://localhost:5000/api/comments/${productId}`)
+               axios.get(`${API_BASE}/products/${productId}`),
+               axios.get(`${API_BASE}/product_images?product_id=${productId}`),
+               axios.get(`${API_BASE}/products`),
+               axios.get(`${API_BASE}/discounts`),
+               axios.get(`${API_BASE}/api/comments/${productId}`)
              ]);
        
              setProduct(productResponse.data);
@@ -115,7 +116,7 @@
          }
      
          try {
-           const response = await axios.post('http://localhost:5000/api/comments', {
+           const response = await axios.post(`${API_BASE}/api/comments`, {
              product_id: productId,
              customer_id: user.customer_id, // Используем реальный идентификатор пользователя
              comment_text: newComment,

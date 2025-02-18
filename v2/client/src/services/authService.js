@@ -1,10 +1,10 @@
 import axios from 'axios';
+import API_BASE from "../api";
 
-const API_BASE_URL = 'http://localhost:5000';
 
 export const checkAuth = async (token) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/auth-check`, {
+      const response = await axios.get(`${API_BASE}/api/auth-check`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data.isAuthenticated;

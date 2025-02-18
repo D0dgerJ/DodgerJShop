@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE from "../../api";
 
 const ModalAccountPage = ({ isModalOpen, closeModal }) => {
   const [isSignupVisible, setIsSignupVisible] = useState(false);
@@ -33,7 +34,7 @@ const ModalAccountPage = ({ isModalOpen, closeModal }) => {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch('http://localhost:5000/api/register', {
+      await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -49,7 +50,7 @@ const ModalAccountPage = ({ isModalOpen, closeModal }) => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

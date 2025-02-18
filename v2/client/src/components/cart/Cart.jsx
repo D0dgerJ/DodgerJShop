@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useCart } from "../../CartContext/CartContext";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import API_BASE from '../../api';
+
 
 const Cart = () => {
 const { cart, setCart } = useCart();
@@ -61,7 +63,7 @@ const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/products_with_images');
+        const response = await axios.get('${API_BASE}/products_with_images');
         setProducts(response.data); // Здесь данные будут содержать продукты с массивом `images`
       } catch (error) {
         console.error('Error fetching products with images:', error);

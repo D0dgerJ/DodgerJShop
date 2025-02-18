@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import API_BASE from "../../api";
 
 const SingleCategory = () => {
   const [products, setProducts] = useState([]);
@@ -18,8 +19,8 @@ const SingleCategory = () => {
     const fetchData = async () => {
       try {
         const [productsResponse, productImagesResponse] = await Promise.all([
-          axios.get("http://localhost:5000/products"),
-          axios.get("http://localhost:5000/product_images"),
+          axios.get(`${API_BASE}/products`),
+          axios.get(`${API_BASE}/product_images`),
         ]);
 
         setProducts(productsResponse.data);
@@ -31,7 +32,7 @@ const SingleCategory = () => {
 
     const fetchBrands = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get(`${API_BASE}/products`);
         const uniqueBrands = [...new Set(response.data.map((product) => product.brand))];
         const brandsWithCount = uniqueBrands.map((brand) => ({
           name: brand,
@@ -46,7 +47,7 @@ const SingleCategory = () => {
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/categories");
+        const response = await axios.get(`${API_BASE}/categories`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories", error);

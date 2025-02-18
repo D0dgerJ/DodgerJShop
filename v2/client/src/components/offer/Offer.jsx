@@ -13,6 +13,7 @@ import Footer from '../Footer/Footer';
 import FeaturesSection from '../FeaturesSection/FeaturesSection';
 import CountdownTimer from './CountdownTimer';
 import apparel4 from '../../assets/products/apparel4.jpg';
+import API_BASE from "../../api";
 
 
 const images = {
@@ -67,12 +68,12 @@ const Offer = () => {
               discountsResponse,
               commentsResponse
             ] = await Promise.all([
-              axios.get(`http://localhost:5000/products/${productId}`),
-              axios.get(`http://localhost:5000/product_images?product_id=${productId}`),
-              axios.get('http://localhost:5000/products'),
-              axios.get(`http://localhost:5000/api/featured-promotions`),
-              axios.get('http://localhost:5000/discounts'),
-              axios.get(`http://localhost:5000/api/comments/${productId}`)
+              axios.get(`${API_BASE}/products/${productId}`),
+              axios.get(`${API_BASE}/product_images?product_id=${productId}`),
+              axios.get(`${API_BASE}/products`),
+              axios.get(`${API_BASE}/api/featured-promotions`),
+              axios.get(`${API_BASE}/discounts`),
+              axios.get(`${API_BASE}/api/comments/${productId}`)
             ]);
     
             setProduct(productResponse.data);
@@ -105,7 +106,7 @@ const Offer = () => {
         }
     
         try {
-          const response = await axios.post('http://localhost:5000/api/comments', {
+          const response = await axios.post(`${API_BASE}/api/comments`, {
             product_id: productId,
             customer_id: user.customer_id, // Используем реальный идентификатор пользователя
             comment_text: newComment,

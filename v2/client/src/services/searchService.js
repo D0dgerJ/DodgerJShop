@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:5000';
+import API_BASE from "../api";
 
 export const searchProducts = async (searchQuery) => {
     const response = await axios.post('http://localhost:5001/api/search', { searchQuery });
@@ -8,6 +7,6 @@ export const searchProducts = async (searchQuery) => {
   };
   
   export const fetchTotalProducts = async () => {
-    const response = await axios.get(`${API_BASE_URL}/products`);
+    const response = await axios.get(`${API_BASE}/products`);
     return response.data.length;
   };

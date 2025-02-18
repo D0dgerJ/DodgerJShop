@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import useWishlist from '../../hooks/useWishlist';
+import API_BASE from '../../api';
 
 // Функция для расчета оставшегося времени
 const calculateTimeRemaining = (targetDate) => {
@@ -32,10 +33,10 @@ const BigProductItem = () => {
     const fetchData = async () => {
       try {
         // Получаем список всех продуктов
-        const productsResponse = await axios.get(`http://localhost:5000/products`);
+        const productsResponse = await axios.get(`${API_BASE}/products`);
         
         // Получаем список всех активных скидок
-        const promotionsResponse = await axios.get(`http://localhost:5000/api/featured-promotions`);
+        const promotionsResponse = await axios.get(`${API_BASE}/api/featured-promotions`);
 
         if (promotionsResponse.data.length > 0) {
           const promotion = promotionsResponse.data[0]; // Выбираем первый активный продукт со скидкой
@@ -46,7 +47,7 @@ const BigProductItem = () => {
             setDiscountValue(promotion.discount_percentage);
 
             // Загружаем картинку для данного продукта
-            const productImagesResponse = await axios.get(`http://localhost:5000/product_images?product_id=${productResponse.product_id}`);
+            const productImagesResponse = await axios.get(`${API_BASE}/product_images?product_id=${productResponse.product_id}`);
             if (productImagesResponse.data.length > 0) {
               setProductImage(productImagesResponse.data[0].image_url); // Используем первую картинку продукта
             }

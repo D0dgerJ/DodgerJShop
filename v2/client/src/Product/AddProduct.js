@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import API_BASE from "../api";
 
 const AddProduct = () => {
     const [name, setName] = useState('');
@@ -8,7 +9,7 @@ const AddProduct = () => {
 
     const handleAddProduct = async () => {
         try {
-            await axios.post('http://localhost:5000/products', {
+            await axios.post(`${API_BASE}/products`, {
                 name,
                 price,
                 description,
