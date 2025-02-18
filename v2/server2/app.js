@@ -13,6 +13,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
+
 // Подключаем папку public для раздачи статических файлов
 app.use('/images', express.static('public/images'));
 
