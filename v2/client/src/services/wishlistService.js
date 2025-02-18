@@ -1,18 +1,21 @@
-/* import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:5000'; */
+import API_BASE from '../api';
 
 export const fetchWishlist = async () => {
-    const response = await fetch('/api/wishlist', {
+    const response = await fetch(`${API_BASE}/api/wishlist`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
+
+    if (!response.ok) {
+      throw new Error('Ошибка при загрузке списка желаемого');
+    }
+
     return response.json();
-  };
+};
   
-  export const addToWishlistAPI = async (productId) => {
-    const response = await fetch('/api/wishlist', {
+export const addToWishlistAPI = async (productId) => {
+    const response = await fetch(`${API_BASE}/api/wishlist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,14 +26,14 @@ export const fetchWishlist = async () => {
   
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'Failed to add to wishlist');
+      throw new Error(error.error || 'Не удалось добавить в список желаемого');
     }
   
     return response.json();
-  };
+};
   
-  export const removeFromWishlistAPI = async (productId) => {
-    const response = await fetch(`/api/wishlist/${productId}`, {
+export const removeFromWishlistAPI = async (productId) => {
+    const response = await fetch(`${API_BASE}/api/wishlist/${productId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -39,8 +42,8 @@ export const fetchWishlist = async () => {
   
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'Failed to remove from wishlist');
+      throw new Error(error.error || 'Не удалось удалить из списка желаемого');
     }
   
     return true;
-  };
+};
