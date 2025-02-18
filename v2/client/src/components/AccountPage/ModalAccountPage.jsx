@@ -52,16 +52,24 @@ const ModalAccountPage = ({ isModalOpen, closeModal }) => {
     try {
       const response = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(formData),
       });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+  
       const data = await response.json();
       localStorage.setItem('token', data.token);
       alert('Login successful');
       closeModal();
     } catch (error) {
-      console.error('Login failed', error);
-      alert('Login failed');
+      console.error('Login failed:', error.message);
+      alert(error.message);
     }
   };
 
