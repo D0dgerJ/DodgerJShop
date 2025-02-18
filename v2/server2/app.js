@@ -764,41 +764,38 @@ app.post('/api/wishlist', async (req, res) => {
   });
   
  // Получить список избранного
-app.get('/api/wishlist', async (req, res) => {
-    const authHeader = req.headers['authorization'];
-  
-    if (!authHeader) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  
-    const token = authHeader.split(' ')[1];
-  
-    jwt.verify(token, jwtSecret, async (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ error: 'Forbidden' });
-      }
-  
-      try {
-        const query = `
-            SELECT p.product_id, p.name AS product_name, 
-                    COALESCE(p.price, 0) AS price, 
-                    p.avg_rating, p.review_count, 
-                    MIN(pi.image_url) AS product_image
-            FROM wish_list wl
-            JOIN products p ON wl.product_id = p.product_id
-            LEFT JOIN product_images pi ON p.product_id = pi.product_id
-            WHERE wl.customer_id = $1
-            GROUP BY p.product_id
-        `;
-        const result = await pool.query(query, [decoded.id]);
-  
-        res.json(result.rows);
-      } catch (error) {
-        console.error('Error fetching wishlist', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
+    app.get('/api/wishlist', async (req, res) => {
+        const authHeader = req.headers['authorization'];
+
+        // 🔹 Если нет токена, возвращаем пустой массив
+        if (!authHeader) {
+            return res.json([]); 
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        try {
+            const decoded = jwt.verify(token, jwtSecret);
+
+            const query = `
+                SELECT p.product_id, p.name AS product_name, 
+                        COALESCE(p.price, 0) AS price, 
+                        p.avg_rating, p.review_count, 
+                        MIN(pi.image_url) AS product_image
+                FROM wish_list wl
+                JOIN products p ON wl.product_id = p.product_id
+                LEFT JOIN product_images pi ON p.product_id = pi.product_id
+                WHERE wl.customer_id = $1
+                GROUP BY p.product_id
+            `;
+
+            const result = await pool.query(query, [decoded.id]);
+            res.json(result.rows);
+        } catch (error) {
+            console.error('Ошибка при обработке JWT:', error);
+            return res.json([]);  // 🔹 Если JWT недействителен — просто вернуть пустой массив
+        }
     });
-  });
   
   // Удалить продукт из избранного
   app.delete('/api/wishlist/:product_id', async (req, res) => {
