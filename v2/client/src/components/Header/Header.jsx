@@ -4,7 +4,7 @@ import { useCart } from "../../CartContext/CartContext";
 import useMenuVisibility from '../../hooks/useMenuVisibility';
 import useProductActions from '../../hooks/useProductActions';
 import apparel4 from '../../assets/products/apparel4.jpg';
-
+import useWishlist from '../../hooks/useWishlist';
 
 const images = {
     apparel4: apparel4,
@@ -27,8 +27,8 @@ const images = {
       setUser(null);
       window.location.reload();
     };
+    const { wishlist } = useWishlist();
     const { cart } = useCart();
-
 
     return (
         <header>
@@ -189,9 +189,11 @@ const images = {
                         </div>
                         <div className="right">
                             <ul className="flexitem second-links">
-                                <li className="mobile-hide"><a href="#">
+                                <li className="mobile-hide"> <a href="/wishlist" className="iswishlist">
                                     <div className="icon-large"><i className="ri-heart-line"></i></div>
-                                    <div className="fly-item"><span className="item-number">0</span></div>
+                                    {wishlist.length > 0 && (
+                                        <div className="fly-item"><span className="item-number">{wishlist.length}</span></div> 
+                                        )}
                                 </a></li>
                                 <li><a href="/Cart" className="iscart">
                                     <div className="icon-large">
