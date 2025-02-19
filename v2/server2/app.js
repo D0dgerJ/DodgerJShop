@@ -1,4 +1,11 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
+
+console.log("🔹 JWT_SECRET загружен:", process.env.JWT_SECRET);
+
+if (!process.env.JWT_SECRET) {
+    console.error("❌ Ошибка: JWT_SECRET не загружен! Проверь `.env` файл.");
+    process.exit(1);
+}
 require('./cronTasks');
 
 const express = require('express');
@@ -19,6 +26,14 @@ app.get('/', (req, res) => {
 
 // Подключаем папку public для раздачи статических файлов
 app.use('/images', express.static('public/images'));
+app.use((req, res, next) => {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
+    next();
+});
+
 
 
 const jwtSecret = process.env.JWT_SECRET;

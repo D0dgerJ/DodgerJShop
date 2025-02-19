@@ -389,3 +389,6 @@ WHERE
 GROUP BY 
   p.product_id;
 
+UPDATE products 
+SET name = 'Air Max' 
+WHERE product_id = 9;
