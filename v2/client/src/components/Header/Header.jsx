@@ -189,7 +189,7 @@ const images = {
                         </div>
                         <div className="right">
                             <ul className="flexitem second-links">
-                                <li className="mobile-hide"> <a href="/wishlist" className="iswishlist">
+                                <li className="mobile-hide"> <a href="/Accountpage" className="iswishlist">
                                     <div className="icon-large"><i className="ri-heart-line"></i></div>
                                     {wishlist.length > 0 && (
                                         <div className="fly-item"><span className="item-number">{wishlist.length}</span></div> 
