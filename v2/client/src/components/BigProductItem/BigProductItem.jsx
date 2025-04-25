@@ -36,7 +36,7 @@ const BigProductItem = () => {
         const productsResponse = await axios.get(`${API_BASE}/products`);
         
         // Получаем список всех активных скидок
-        const promotionsResponse = await axios.get(`${API_BASE}/api/featured-promotions`);
+        const promotionsResponse = await axios.get(`${API_BASE}/featured-promotions`);
 
         if (promotionsResponse.data.length > 0) {
           const promotion = promotionsResponse.data[0]; // Выбираем первый активный продукт со скидкой
@@ -48,8 +48,9 @@ const BigProductItem = () => {
 
             // Загружаем картинку для данного продукта
             const productImagesResponse = await axios.get(`${API_BASE}/product_images?product_id=${productResponse.product_id}`);
-            if (productImagesResponse.data.length > 0) {
-              setProductImage(productImagesResponse.data[0].image_url); // Используем первую картинку продукта
+            const image = productImagesResponse.data.find(img => img.product_id === productResponse.product_id);
+            if (image) {
+              setProductImage(image.image_url);
             }
 
             // Расчет времени до конца акции

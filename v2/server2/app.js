@@ -183,7 +183,7 @@ app.put('/api/profile', async (req, res) => {
 });
 
 // Products routes
-app.get('/products', async (req, res) => {
+app.get('/api/products', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products');
         res.json(result.rows);
@@ -193,7 +193,7 @@ app.get('/products', async (req, res) => {
     }
 });
 
-app.get('/product_images', async (req, res) => {
+app.get('/api/product_images', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM product_images');
         res.json(result.rows);
@@ -203,7 +203,7 @@ app.get('/product_images', async (req, res) => {
     }
 });
 
-app.get('/products/:productId', async (req, res) => {
+app.get('/api/products/:productId', async (req, res) => {
     const productId = req.params.productId;
     try {
         const result = await pool.query('SELECT * FROM products WHERE product_id = $1', [productId]);
@@ -218,7 +218,7 @@ app.get('/products/:productId', async (req, res) => {
     }
 });
 
-app.get('/product_images/:imageId', async (req, res) => {
+app.get('/api/product_images/:imageId', async (req, res) => {
     const imageId = req.params.imageId;
     try {
         const result = await pool.query('SELECT * FROM product_images WHERE product_id = $1', [imageId]);
@@ -233,7 +233,7 @@ app.get('/product_images/:imageId', async (req, res) => {
     }
 });
 
-app.get('/products_with_images', async (req, res) => {
+app.get('/api/products_with_images', async (req, res) => {
     try {
         const query = `
             SELECT 
@@ -287,7 +287,7 @@ app.get('/products_with_images', async (req, res) => {
 });
 
 
-app.get('/categories', async (req, res) => {
+app.get('/api/categories', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM categories');
         const categoriesWithCount = await Promise.all(result.rows.map(async (category) => {
@@ -301,7 +301,7 @@ app.get('/categories', async (req, res) => {
     }
 });
 
-app.get('/discounts', async (req, res) => {
+app.get('/api/discounts', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM discounts');
         res.json(result.rows);
@@ -311,7 +311,7 @@ app.get('/discounts', async (req, res) => {
     }
 });
 
-app.get('/discounts/:discountId', async (req, res) => {
+app.get('/api/discounts/:discountId', async (req, res) => {
     const discountId = req.params.discountId;
     try {
         const result = await pool.query('SELECT * FROM discounts WHERE discount_id = $1', [discountId]);
@@ -539,7 +539,7 @@ app.get('/api/user-comments', async (req, res) => {
 });
 
 // среднего рейтинга
-app.get('/products', async (req, res) => {
+app.get('/api/products', async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT 

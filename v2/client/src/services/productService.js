@@ -22,7 +22,7 @@ export const fetchDiscounts = async () => {
 
 // Fetch comments for a product
 export const fetchComments = async (productId) => {
-  const response = await axios.get(`${API_BASE}/api/comments/${productId}`);
+  const response = await axios.get(`${API_BASE}/comments/${productId}`);
   return response.data;
 };
 

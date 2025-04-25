@@ -66,7 +66,7 @@
                axios.get(`${API_BASE}/product_images?product_id=${productId}`),
                axios.get(`${API_BASE}/products`),
                axios.get(`${API_BASE}/discounts`),
-               axios.get(`${API_BASE}/api/comments/${productId}`)
+               axios.get(`${API_BASE}/comments/${productId}`)
              ]);
        
              setProduct(productResponse.data);
